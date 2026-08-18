@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: kathalife-memory
+  datasource:
+    url: jdbc:postgresql://localhost:5433/kathalife_memory
+    username: kathalife
+    password: kathalife_dev_password
+    driver-class-name: org.postgresql.Driver
+  kafka:
+    consumer:
+       group-id: kathalife-memory-embedding-consumer
+       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+       value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
+    properties:
+        spring.json.trusted.packages: com.kathalife.memory.consumer.dto
+        spring.json.value.default.type: com.kathalife.memory.consumer.dto.JournalEntrySavedEvent
+        spring.json.use.type.headers: false
+server:
+  address: 0.0.0.0
+  port: 8081
+
+embedding:
+  provider: cohere   # switch to "noop" for keyless local testing
+
+cohere:
+  api-key: ${COHERE_API_KEY}
